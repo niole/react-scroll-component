@@ -1,7 +1,6 @@
 "use strict";
 
 var React = require('react');
-var ScrollContainer = require('./Scroll/ScrollContainer.jsx');
-
-React.render( <ScrollContainer/>, $('#container')[0]);
+var ScrollDash = require('./ScrollPackage/ScrollDash.jsx');
+React.render( <ScrollDash/>, $('#container')[0]);
 
