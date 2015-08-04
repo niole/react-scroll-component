@@ -46,16 +46,11 @@ var Scroll = React.createClass({
    onScroll: function(event) {
     event.preventDefault();
     this.scrollVal = event.originalEvent.wheelDelta;
-    console.log(this.scrollVal);
     if (!this.props.scrolling) {
         this.scrolling=true;
         this.props.scrolling(true);
         this.onScrollStart();
     }
-
-    //TODO: this.scrollVal needs to translate to displacment of inner div
-    //1. update delta
-    //2. add/subtract from this.state.top/reset state
     var delta = 0;
     var scrollDiff = 0;
 
@@ -102,13 +97,13 @@ var Scroll = React.createClass({
                                     height: this.props.heightComp,
                                     position: "relative",
                                     border: "3px solid red",
+                                    overflow: "hidden"
                                   }
                                   },
           React.createElement('div',{
                                     id: 'scroll-window',
                                     className: 'scroll-window',
                                     style:{
-                                         overflow: "hidden",
                                          position: "absolute",
                                          width: this.props.width,
                                          height: this.props.height,
