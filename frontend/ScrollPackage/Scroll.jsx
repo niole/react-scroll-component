@@ -55,7 +55,6 @@ var Scroll = React.createClass({
     var scrollDiff = 0;
 
     if (Math.abs(this.scrollVal) < 1300){
-      //for every 18 delta pts, get 1% change in height
       scrollDiff = Math.floor(Math.abs(this.scrollVal)/18);
       delta = (scrollDiff/100)*this.props.heightComp;
     }else{
@@ -99,7 +98,6 @@ var Scroll = React.createClass({
                                     height: this.props.heightComp,
                                     position: "relative",
                                     overflow: "hidden",
-                                    border: "2px solid red"
                                   }
                                   },
           React.createElement('div',{
