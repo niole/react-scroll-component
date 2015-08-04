@@ -1,52 +1,36 @@
- "use strict";
- var React = require('react');
- var Scroll = require('./Scroll.jsx');
- var Dash = React.createClass({
-      SU: function(d){
- //       if (d){
- //        console.log(d);
- //         console.log('DOWN')
- //       }
-      },
-      SD: function(d){
- //       console.log(d);
- //       if (d){
- //         console.log('UP');
- //       }
-      },                       
-      SData: function(d){      
-        console.log(d);        
-      },
+"use strict";
+var React = require('react');
+var Scroll = require('./Scroll.jsx');
 
-    },
-    S: function(d){
-      if (d){
-        console.log('scrolling');
-      }
-    }, 
-   render: function(){
-     var delta;
-     return (
-       <div>
-       <h1>HEY</h1>
-        <Scroll
-         scrollUp={this.SU}
-         scrollDown={this.SD}
-         lastScrollVal={this.SData}
-         scrolling={this.S}
-         scrollobj={React.createElement('div',{
-           style: {
-             position: "absolute",
-             top: delta
-           },
-           id:"stuff"})}
-           >
-           <div id="stuff">
-             <p>sdlfkja</p>
-           </div>
-     </Scroll>
-     </div>
-     );
-); 
+var ScrollDash = React.createClass({
+  S: function(d){
+    if (d){
+      console.log('scrolling');
+    }
+  },
+ render: function(){
+   var elt = React.createElement('div',{
+                                        style: {
+                                          border: "1px solid black",
+                                          width: "500px",
+                                          height: "1000px"
+                                        }
+                                        });
 
-module.exports = Dash;
+   return (
+     <div>
+     <h1>HEY</h1>
+      <Scroll
+       scrolling={this.S}
+       height={1000}
+       width={500}
+       heightComp={500}
+       widthComp={500}
+       component={elt}
+       />
+   </div>
+   );
+ }
+});
+
+module.exports = ScrollDash;

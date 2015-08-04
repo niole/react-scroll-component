@@ -5,74 +5,88 @@ var React = require('react');
 var Scroll = React.createClass({
     getDefaultProps: function(){
       return {
-        lastScrollVal: function(){return 0;},
-        scrolling: function(){return false;},
-        scrollUp: function(){return false;},
-        scrollDown: function(){return false;},
+        scrolling: function(){return false;}
       };
     },
     propTypes: {
-      lastScrollVal: React.PropTypes.func,
       scrolling: React.PropTypes.func,
-      scollUp: React.PropTypes.func,
-      scrollDown: React.PropTypes.func,
-      scrollobj: React.PropTypes.object
+      height: React.PropTypes.number,
+      width: React.PropTypes.number,
+      widthComp: React.PropTypes.number,
+      heightComp: React.PropTypes.number,
+      component: React.PropTypes.object
     },
     getInitialState: function() {
-
         return {
                 scrolling: false,
+                top: 0
                 };
     },
     componentDidMount: function(){
-      $('#react-scroll').bind('mousewheel', function(event){
+      $('#scroll-window').bind('mousewheel', function(event){
         this.onScroll(event);
        }.bind(this));
       this.scrolling = false;
-      this.lastScrollVal = 0;
+      this.scrollVal = 0;
       this.CheckInterval = 100;
 
       this.checkInterval = setInterval(this.checkScroll, this.CheckInterval);
     },
    componentWillUnmount: function() {
-     $('#react-scroll').removeEventListener('mousewheel');
+     $('#scroll-window').removeEventListener('mousewheel');
      clearInterval(this.checkInterval);
    },
    checkScroll: function() {
        if (Date.now() - this.lastScrollTime > this.CheckInterval*2 && this.props.scrolling) {
         this.props.scrolling(false);
-        this.props.scrollUp(false);
-        this.props.scrollDown(false);
-
-        this.lastScrollVal = 0;
-        this.scrollUp = false;
         this.scrolling = false;
         this.onScrollEnd();
       }
    },
    onScroll: function(event) {
     event.preventDefault();
-    var scrollVal = event.originalEvent.wheelDelta;
-
+    this.scrollVal = event.originalEvent.wheelDelta;
+    console.log(this.scrollVal);
     if (!this.props.scrolling) {
         this.scrolling=true;
         this.props.scrolling(true);
         this.onScrollStart();
     }
 
-    this.lastScrollTime = Date.now();
-    if (scrollVal >= this.lastScrollVal){
-      console.log('scrollval > lastval');
-      this.props.lastScrollVal(scroll);
-      this.props.scrollUp(true);
-      this.props.scrollDown(false);
+    //TODO: this.scrollVal needs to translate to displacment of inner div
+    //1. update delta
+    //2. add/subtract from this.state.top/reset state
+    var delta = 0;
+    var scrollDiff = 0;
+
+    if (Math.abs(this.scrollVal) < 1300){
+      //for every 18 delta pts, get 1% change in height
+      scrollDiff = Math.floor(Math.abs(this.scrollVal)/18);
+      delta = (scrollDiff/100)*this.props.heightComp;
     }else{
-      console.log('scrollval < lastval');
-      this.props.scrollUp(false);
-      this.props.scrollDown(true);
+      //update delta to be 75% change in height
+      delta = (3/4)*this.props.heightComp;
     }
-    this.props.lastScrollVal(scrollVal);
-    this.lastScrollVal = scrollVal;
+    if (this.scrollVal < 0){
+      //add to top
+      if (this.state.top - delta <= -this.props.height+this.props.heightComp){
+        //only add part of delta
+        this.setState({ top: -this.props.height+this.props.heightComp});
+      }else{
+        //add delta
+        this.setState({ top: this.state.top-delta});
+      }
+    }else{
+      //subtract from top
+      if (this.state.top + delta > 0){
+        //only subtract part of delta
+        this.setState({ top: 0});
+      }else{
+        //subtract all of delta
+        this.setState({ top: this.state.top+delta});
+      }
+    }
+    this.lastScrollTime = Date.now();
     },
     onScrollStart: function() {
         this.setState({scrolling: true});
@@ -83,13 +97,23 @@ var Scroll = React.createClass({
     render: function() {
       return (
         React.createElement('div',{
-                                  id: 'react-scroll',
-                                  className: 'react-scroll',
                                   style: {
-                                    position: "relative"
+                                    width: this.props.widthComp,
+                                    height: this.props.heightComp,
+                                    position: "relative",
+                                    border: "3px solid red",
                                   }
                                   },
-                                  this.props.scrollobj
+          React.createElement('div',{
+                                    id: 'scroll-window',
+                                    className: 'scroll-window',
+                                    style:{
+                                         overflow: "hidden",
+                                         position: "absolute",
+                                         width: this.props.width,
+                                         height: this.props.height,
+                                         top: (this.state.top).toString()+"px"
+                                         }},this.props.component)
                             )
 
             );
