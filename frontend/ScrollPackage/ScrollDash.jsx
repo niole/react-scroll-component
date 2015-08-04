@@ -12,8 +12,6 @@ var ScrollDash = React.createClass({
 
    var elt = React.createElement('div',{
                                         style: {
-                                          backgroundColor: "black",
-                                          border: "1px solid black",
                                           width: "500px",
                                           height: "1000px"
                                         }

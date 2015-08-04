@@ -92,23 +92,27 @@ var Scroll = React.createClass({
     render: function() {
       return (
         React.createElement('div',{
+                                  id: 'scroll-window',
+                                  className: 'scroll-window',
                                   style: {
                                     width: this.props.widthComp,
                                     height: this.props.heightComp,
                                     position: "relative",
-                                    border: "3px solid red",
-                                    overflow: "hidden"
+                                    overflow: "hidden",
+                                    border: "2px solid red"
                                   }
                                   },
           React.createElement('div',{
-                                    id: 'scroll-window',
-                                    className: 'scroll-window',
+                                    id: 'scroll-wrapper',
+                                    className: 'scroll-wrapper',
                                     style:{
                                          position: "absolute",
                                          width: this.props.width,
                                          height: this.props.height,
                                          top: (this.state.top).toString()+"px"
-                                         }},this.props.component)
+                                         }
+                                    },
+                                    this.props.component)
                             )
 
             );
