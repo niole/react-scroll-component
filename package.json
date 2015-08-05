@@ -1,7 +1,7 @@
 {
   "name": "react-scrolling-container",
   "version": "1.0.1",
-  "description": "Render markdown with ReactJS using the express framework, browserify for dependency resolution, the gulp build system, and jade templateing.",
+  "description": "",
   "main": "./frontend/ScrollPackage/Scroll.jsx",
   "scripts": {
     "start": "node ./bin/www"
