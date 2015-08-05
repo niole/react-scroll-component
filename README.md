@@ -17,5 +17,6 @@
   scrolled to part of the React Element
 * widthComp - width of window
 * component - the React Element you want to have scroll capabilities
+
 ## can only use measurements in px
 ## please report all issues here: https://github.com/niole/react-scroll-component
